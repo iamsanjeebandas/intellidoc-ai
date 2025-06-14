@@ -12,10 +12,13 @@ export const userSystemEnum = pgEnum("user_system_enum", ["system", "user"]);
 export const chats = pgTable("chats", {
   id: serial("id").primaryKey(),
   pdfName: text("pdf_name").notNull(),
-  pdfUrl: timestamp("created_at").notNull().defaultNow(),
+  pdfUrl: text("pdf_url").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
   userId: varchar("user_id", { length: 256 }).notNull(),
   fileKey: text("file_key").notNull(),
 });
+
+export type DrizzleChat = typeof chats.$inferInsert;
 
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
@@ -26,5 +29,3 @@ export const messages = pgTable("messages", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   role: userSystemEnum("role").notNull(),
 });
-
-
